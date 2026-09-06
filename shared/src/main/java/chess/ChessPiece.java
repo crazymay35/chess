@@ -72,8 +72,7 @@ public class ChessPiece {
                     possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()+i),null));
                 }
             }
-            return possibleMoves;
         }
-        return List.of();
+        return possibleMoves;
     }
 }

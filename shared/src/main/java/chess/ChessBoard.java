@@ -7,11 +7,9 @@ package chess;
  * signature of the existing methods.
  */
 public class ChessBoard {
-
-    public ChessBoard() {
-        
-    }
     ChessPiece[][] squares = new ChessPiece[8][8];
+    public ChessBoard() { }
+
     /**
      * Adds a chess piece to the chessboard
      *
@@ -39,5 +37,23 @@ public class ChessBoard {
      */
     public void resetBoard() {
         throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder board = new StringBuilder();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (squares[row][col] == null) {
+                    board.append("| ");
+                }
+                else {
+                    board.append("|");
+                    board.append(squares[row][col]);
+                }
+            }
+            board.append("|\n");
+        }
+        return board.toString();
     }
 }
