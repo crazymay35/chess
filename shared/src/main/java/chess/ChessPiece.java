@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -55,8 +56,23 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece((myPosition));
+        List<ChessMove> possibleMoves = new ArrayList<>();
         if (piece.getPieceType() == PieceType.BISHOP) {
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8),null));
+            for (int i = 1; i <= 8; i++) {
+                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()-i >= 1) {
+                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()-i),null));
+                }
+                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()+i <= 8) {
+                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()+i),null));
+                }
+                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()-i >= 1) {
+                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()-i),null));
+                }
+                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()+i <= 8) {
+                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()+i),null));
+                }
+            }
+            return possibleMoves;
         }
         return List.of();
     }
