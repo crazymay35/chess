@@ -10,9 +10,7 @@ import java.util.Collection;
  */
 public class ChessGame {
 
-    public ChessGame() {
-
-    }
+    public ChessGame() { }
 
     /**
      * @return Which team's turn it is
@@ -45,9 +43,7 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
-    }
+    public Collection<ChessMove> validMoves(ChessPosition startPosition) { throw new RuntimeException("Not implemented"); }
 
     /**
      * Makes a move in the chess game
@@ -55,9 +51,7 @@ public class ChessGame {
      * @param move chess move to perform
      * @throws InvalidMoveException if move is invalid
      */
-    public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
-    }
+    public void makeMove(ChessMove move) throws InvalidMoveException { throw new RuntimeException("Not implemented"); }
 
     /**
      * Determines if the given team is in check
@@ -75,9 +69,8 @@ public class ChessGame {
      * @param teamColor which team to check for checkmate
      * @return True if the specified team is in checkmate
      */
-    public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
-    }
+
+    public boolean isInCheckmate(TeamColor teamColor) { throw new RuntimeException("Not implemented"); }
 
     /**
      * Determines if the given team is in stalemate, which here is defined as having
