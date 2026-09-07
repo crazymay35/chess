@@ -62,9 +62,11 @@ public class ChessPiece {
         return Objects.hash(pieceColor, type);
     }
 
-    private boolean notOutOfBounds (int row, int column) {
+    /*private boolean boundaries(int row, int column) {
         return (row <= 8 && row >= 1 && column <=8 && column >= 1);
-    }
+    }*/
+
+
     /**
      * Calculates all the positions a chess piece can move to
      * Does not take into account moves that are illegal due to leaving the king in
@@ -74,23 +76,79 @@ public class ChessPiece {
      */
 
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ChessPiece piece = board.getPiece((myPosition));
+        ChessPiece myPiece = board.getPiece(myPosition);
         List<ChessMove> possibleMoves = new ArrayList<>();
-        if (piece.getPieceType() == PieceType.BISHOP) {
+        if (myPiece.getPieceType() == PieceType.BISHOP) {
+            //down and left
             for (int i = 1; i <= 8; i++) {
-                if (notOutOfBounds(myPosition.getRow()-i, myPosition.getColumn()-i)) {
-                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()-i),null));
+                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()-i >= 1) {
+                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()-i);
+                    ChessPiece newPiece = board.getPiece(newPosition);
+                    if (newPiece == null) {
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                        break;
+                    }
+                    else {
+                        break;
+                    }
                 }
-                if (notOutOfBounds(myPosition.getRow()-i, myPosition.getColumn()+i)) {
-                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()+i),null));
-                }
-                if (notOutOfBounds(myPosition.getRow()+i, myPosition.getColumn()-i)) {
-                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()-i),null));
-                }
-                if (notOutOfBounds(myPosition.getRow()+i, myPosition.getColumn()+i)) {
-                    possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()+i),null));
-                }
+            }
 
+            //up and left
+            for (int i = 1; i <= 8; i++) {
+                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()-i >= 1) {
+                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()-i);
+                    ChessPiece newPiece = board.getPiece(newPosition);
+                    if (newPiece == null) {
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                        break;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+
+            //up and right
+            for (int i = 1; i <= 8; i++) {
+                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()+i <= 8) {
+                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()+i);
+                    ChessPiece newPiece = board.getPiece(newPosition);
+                    if (newPiece == null) {
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                        break;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+
+            //down and right
+            for (int i = 1; i <= 8; i++) {
+                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()+i <= 8) {
+                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()+i);
+                    ChessPiece newPiece = board.getPiece(newPosition);
+                    if (newPiece == null) {
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                    }
+                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                        break;
+                    }
+                    else {
+                        break;
+                    }
+                }
             }
         }
         return possibleMoves;
