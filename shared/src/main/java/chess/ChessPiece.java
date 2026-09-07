@@ -62,6 +62,9 @@ public class ChessPiece {
         return Objects.hash(pieceColor, type);
     }
 
+    private boolean notOutOfBounds (int row, int column) {
+        return (row <= 8 && row >= 1 && column <=8 && column >= 1);
+    }
     /**
      * Calculates all the positions a chess piece can move to
      * Does not take into account moves that are illegal due to leaving the king in
@@ -69,26 +72,26 @@ public class ChessPiece {
      *
      * @return Collection of valid moves
      */
+
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece((myPosition));
         List<ChessMove> possibleMoves = new ArrayList<>();
         if (piece.getPieceType() == PieceType.BISHOP) {
             for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()-i >= 1) {
+                if (notOutOfBounds(myPosition.getRow()-i, myPosition.getColumn()-i)) {
                     possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()-i),null));
                 }
-                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()+i <= 8) {
+                if (notOutOfBounds(myPosition.getRow()-i, myPosition.getColumn()+i)) {
                     possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()+i),null));
                 }
-                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()-i >= 1) {
+                if (notOutOfBounds(myPosition.getRow()+i, myPosition.getColumn()-i)) {
                     possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()-i),null));
                 }
-                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()+i <= 8) {
+                if (notOutOfBounds(myPosition.getRow()+i, myPosition.getColumn()+i)) {
                     possibleMoves.add(new ChessMove(myPosition, new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()+i),null));
                 }
-            }
 
-            //possibleMoves.add(new ChessMove(myPosition), new ChessMove(myPosition.))
+            }
         }
         return possibleMoves;
     }
