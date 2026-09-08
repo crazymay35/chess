@@ -10,8 +10,24 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessBoard {
-    ChessPiece[][] squares = new ChessPiece[8][8];
-    public ChessBoard() { }
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessBoard that = (ChessBoard) o;
+        return Objects.deepEquals(squares, that.squares);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(squares);
+    }
+
+    ChessPiece[][] squares;
+    public ChessBoard() {
+        this.squares = new ChessPiece[8][8];
+    }
 
     /**
      * Adds a chess piece to the chessboard
@@ -42,19 +58,7 @@ public class ChessBoard {
         throw new RuntimeException("Not implemented");
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ChessBoard that = (ChessBoard) o;
-        return Objects.deepEquals(squares, that.squares);
-    }
 
-    @Override
-    public int hashCode() {
-        return Arrays.deepHashCode(squares);
-    }
 
     @Override
     public String toString() {
