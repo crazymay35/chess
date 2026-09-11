@@ -16,18 +16,16 @@ public class ChessBoard {
             return false;
         }
         ChessBoard that = (ChessBoard) o;
-        return Objects.deepEquals(squares, that.squares);
+        return Objects.deepEquals(board, that.board);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.deepHashCode(squares);
+        return Arrays.deepHashCode(board);
     }
 
-    ChessPiece[][] squares;
-    public ChessBoard() {
-        this.squares = new ChessPiece[8][8];
-    }
+    private final ChessPiece[][] board;
+    public ChessBoard() { this.board = new ChessPiece[8][8]; }
 
     /**
      * Adds a chess piece to the chessboard
@@ -35,9 +33,7 @@ public class ChessBoard {
      * @param position where to add the piece to
      * @param piece    the piece to add
      */
-    public void addPiece(ChessPosition position, ChessPiece piece) {
-        squares[position.getRow()-1][position.getColumn()-1] = piece;
-    }
+    public void addPiece(ChessPosition position, ChessPiece piece) { board[position.getRow()-1][position.getColumn()-1] = piece; }
 
     /**
      * Gets a chess piece on the chessboard
@@ -47,7 +43,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        return squares[position.getRow()-1][position.getColumn()-1];
+        return board[position.getRow()-1][position.getColumn()-1];
     }
 
     /**
@@ -65,12 +61,12 @@ public class ChessBoard {
         StringBuilder board = new StringBuilder();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                if (squares[row][col] == null) {
+                if (this.board[row][col] == null) {
                     board.append("| ");
                 }
                 else {
                     board.append("|");
-                    board.append(squares[row][col]);
+                    board.append(this.board[row][col]);
                 }
             }
             board.append("|\n");

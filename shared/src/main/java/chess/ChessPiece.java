@@ -2,7 +2,6 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -50,9 +49,7 @@ public class ChessPiece {
     /**
      * @return Which team this chess piece belongs to
      */
-    public ChessGame.TeamColor getTeamColor() {
-        return pieceColor;
-    }
+    public ChessGame.TeamColor getTeamColor() { return pieceColor; }
 
     /**
      * @return which type of chess piece this piece is
@@ -70,83 +67,17 @@ public class ChessPiece {
      *
      * @return Collection of valid moves
      */
-
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece myPiece = board.getPiece(myPosition);
-        List<ChessMove> possibleMoves = new ArrayList<>();
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+
         if (myPiece.getPieceType() == PieceType.BISHOP) {
-            //down and left
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()-i >= 1) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()-i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-
-            //up and left
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()-i >= 1) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()-i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-
-            //up and right
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()+i <= 8) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()+i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-
-            //down and right
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()+i <= 8) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()+i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
+            BishopMovesCalculator bishopCalc = new BishopMovesCalculator(board, myPosition);
+            possibleMoves = bishopCalc.pieceMoves(board, myPosition);
         }
         return possibleMoves;
     }
+
+    @Override
+    public String toString() { return String.format("%s %s",pieceColor, type); }
 }
