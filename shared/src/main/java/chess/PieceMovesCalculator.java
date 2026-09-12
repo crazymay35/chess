@@ -7,22 +7,22 @@ import java.util.List;
 abstract class PieceMovesCalculator {
     private final ChessBoard board;
     private final ChessPosition position;
-    public PieceMovesCalculator(ChessBoard board, ChessPosition position) {
+    protected PieceMovesCalculator(ChessBoard board, ChessPosition position) {
         this.board = board;
         this.position = position;
     }
-    public abstract Collection<ChessMove> pieceMoves();
+    protected abstract Collection<ChessMove> pieceMoves();
 
-    private boolean inBounds(ChessPosition position) {
+    protected boolean inBounds(ChessPosition position) {
         return position.getRow() >=1 && position.getRow() <= 8 && position.getColumn() >= 1 && position.getColumn() <= 8;
     }
-    private boolean pieceIsNull(ChessPosition position) {
+    protected boolean pieceIsNull(ChessPosition position) {
         return board.getPiece(position) == null;
     }
-    private boolean teamColorNotMatch(ChessPiece newPiece, ChessPiece myPiece) {
+    protected boolean teamColorNotMatch(ChessPiece newPiece, ChessPiece myPiece) {
         return newPiece.getTeamColor() != myPiece.getTeamColor();
     }
-    public enum Direction {
+    protected enum Direction {
         UP(1,0),
         UP_RIGHT(1,1),
         RIGHT(0,1),
@@ -44,7 +44,7 @@ abstract class PieceMovesCalculator {
         }
 
     }
-    public Collection<ChessMove> moveDirection(Direction direction) {
+    protected Collection<ChessMove> moveDirection(Direction direction) {
         ChessPiece piece = board.getPiece(position);
         List<ChessMove> possibleMoves = new ArrayList<>();
         int i = 1;
