@@ -11,6 +11,9 @@ abstract class PieceMovesCalculator {
         this.board = board;
         this.position = position;
     }
+    protected ChessBoard getBoard() { return board; }
+    protected ChessPosition getPosition() { return position; }
+
     protected abstract Collection<ChessMove> pieceMoves();
 
     protected boolean inBounds(ChessPosition position) {
@@ -23,6 +26,7 @@ abstract class PieceMovesCalculator {
         return newPiece.getTeamColor() != myPiece.getTeamColor();
     }
     protected enum Direction {
+        NULL(0,0),
         UP(1,0),
         UP_RIGHT(1,1),
         RIGHT(0,1),
