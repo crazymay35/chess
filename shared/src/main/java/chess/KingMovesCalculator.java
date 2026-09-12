@@ -29,7 +29,7 @@ public class KingMovesCalculator extends PieceMovesCalculator {
     }
 
     @Override
-    protected Collection<ChessMove> moveDirection(Direction direction) {
+    protected Collection<ChessMove> moveDirection() {
         List<ChessMove> possibleMoves = new ArrayList<>();
         add(validMove(Direction.UP), possibleMoves);
         add(validMove(Direction.UP_RIGHT), possibleMoves);
@@ -43,6 +43,6 @@ public class KingMovesCalculator extends PieceMovesCalculator {
     }
     @Override
     protected Collection<ChessMove> pieceMoves() {
-        return moveDirection(Direction.NULL);
+        return moveDirection();
     }
 }

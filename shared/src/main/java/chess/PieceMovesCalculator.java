@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 abstract class PieceMovesCalculator {
@@ -46,7 +47,6 @@ abstract class PieceMovesCalculator {
         public ChessPosition step(ChessPosition position, int length) {
             return new ChessPosition(position.getRow() + (this.row * length), position.getColumn() + (this.col * length));
         }
-
     }
     protected Collection<ChessMove> moveDirection(Direction direction) {
         ChessPiece piece = board.getPiece(position);
@@ -66,5 +66,8 @@ abstract class PieceMovesCalculator {
             i++;
         }
         return possibleMoves;
+    }
+    protected Collection<ChessMove> moveDirection() {
+        return Collections.emptyList();
     }
 }

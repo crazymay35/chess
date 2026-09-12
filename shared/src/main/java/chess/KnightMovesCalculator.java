@@ -27,15 +27,15 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
             this.row = row;
             this.col = col;
         }
-        public ChessPosition step(ChessPosition position, int length) {
-            return new ChessPosition(position.getRow() + (this.row * length), position.getColumn() + (this.col * length));
+        public ChessPosition step(ChessPosition position) {
+            return new ChessPosition(position.getRow() + this.row, position.getColumn() + this.col);
         }
     }
 
     private ChessMove validMove(Direction direction) {
         ChessPiece piece = getBoard().getPiece(getPosition());
-        if (inBounds(direction.step(getPosition(), 1))) {
-            ChessPosition newPosition = direction.step(getPosition(), 1);
+        if (inBounds(direction.step(getPosition()))) {
+            ChessPosition newPosition = direction.step(getPosition());
             ChessPiece newPiece = getBoard().getPiece(newPosition);
             if (pieceIsNull(newPosition) || teamColorNotMatch(newPiece, piece)) {
                 return new ChessMove(getPosition(), newPosition, null);
@@ -51,7 +51,7 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
     }
 
     @Override
-    protected Collection<ChessMove> moveDirection(PieceMovesCalculator.Direction direction) {
+    protected Collection<ChessMove> moveDirection() {
         List<ChessMove> possibleMoves = new ArrayList<>();
         add(validMove(Direction.UP_RIGHT), possibleMoves);
         add(validMove(Direction.UP_LEFT), possibleMoves);
@@ -66,6 +66,6 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
 
     @Override
     protected Collection<ChessMove> pieceMoves() {
-        return moveDirection(PieceMovesCalculator.Direction.NULL);
+        return moveDirection();
     }
 }
