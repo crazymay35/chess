@@ -72,8 +72,8 @@ public class ChessPiece {
         Collection<ChessMove> possibleMoves = new ArrayList<>();
 
         if (myPiece.getPieceType() == PieceType.BISHOP) {
-            BishopMovesCalculator bishopCalc = new BishopMovesCalculator(board, myPosition);
-            possibleMoves = bishopCalc.pieceMoves(board, myPosition);
+
+            return new BishopMovesCalculator(board, myPosition).pieceMoves(board, myPosition);
         }
         return possibleMoves;
     }

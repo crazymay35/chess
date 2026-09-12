@@ -1,91 +1,22 @@
 package chess;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+//import java.util.List;
+import java.util.stream.Stream;
 
 public class BishopMovesCalculator extends PieceMovesCalculator {
     public BishopMovesCalculator(ChessBoard board, ChessPosition position) {
-        super(board,position);
+        super(board, position);
     }
 
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ChessPiece myPiece = board.getPiece(myPosition);
-        List<ChessMove> possibleMoves = new ArrayList<>();
-        if (myPiece.getPieceType() == ChessPiece.PieceType.BISHOP) {
-            //down and left
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()-i >= 1) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()-i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
+        Collection<ChessMove> moveUpRight = moveDirection(board, Direction.UP_RIGHT);
+        Collection<ChessMove> moveDownRight = moveDirection(board, Direction.DOWN_RIGHT);
+        Collection<ChessMove> moveDownLeft = moveDirection(board, Direction.DOWN_LEFT);
+        Collection<ChessMove> moveUpLeft = moveDirection(board, Direction.UP_LEFT);
 
-            //up and left
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()-i >= 1) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()-i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-
-            //up and right
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()+i <= 8 && myPosition.getColumn()+i <= 8) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()+i, myPosition.getColumn()+i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-
-            //down and right
-            for (int i = 1; i <= 8; i++) {
-                if (myPosition.getRow()-i >= 1 && myPosition.getColumn()+i <= 8) {
-                    ChessPosition newPosition = new ChessPosition(myPosition.getRow()-i, myPosition.getColumn()+i);
-                    ChessPiece newPiece = board.getPiece(newPosition);
-                    if (newPiece == null) {
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                    }
-                    else if (newPiece.getTeamColor() != myPiece.getTeamColor()){
-                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
-                        break;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-        }
-        return possibleMoves;
+        return  Stream.of(moveUpRight, moveUpLeft, moveDownRight, moveDownLeft).flatMap(Collection::stream).toList();
     }
 }
