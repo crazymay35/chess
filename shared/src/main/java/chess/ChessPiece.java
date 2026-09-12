@@ -77,8 +77,17 @@ public class ChessPiece {
         if (myPiece.getPieceType() == PieceType.ROOK) {
             return new RookMovesCalculator(board,myPosition).pieceMoves();
         }
-        if (myPiece.getPieceType() ==PieceType.QUEEN) {
+        if (myPiece.getPieceType() == PieceType.QUEEN) {
             return new QueenMovesCalculator(board,myPosition).pieceMoves();
+        }
+        if (myPiece.getPieceType() == PieceType.KING) {
+            return new KingMovesCalculator(board,myPosition).pieceMoves();
+        }
+        if (myPiece.getPieceType() == PieceType.KNIGHT) {
+            return new KnightMovesCalculator(board,myPosition).pieceMoves();
+        }
+        if (myPiece.getPieceType() == PieceType.PAWN) {
+            return new PawnMovesCalculator(board,myPosition).pieceMoves();
         }
         return possibleMoves;
     }

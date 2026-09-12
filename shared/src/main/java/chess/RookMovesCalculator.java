@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 public class RookMovesCalculator extends PieceMovesCalculator{
-    public RookMovesCalculator(ChessBoard board, ChessPosition position) { super(board,position); }
+    public RookMovesCalculator(ChessBoard board, ChessPosition position) {
+        super(board,position);
+    }
 
     @Override
     protected Collection<ChessMove> pieceMoves() {
