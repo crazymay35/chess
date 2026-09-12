@@ -13,6 +13,7 @@ public class RookMovesCalculator extends PieceMovesCalculator{
         Collection<ChessMove> moveRight = moveDirection(Direction.RIGHT);
         Collection<ChessMove> moveDown = moveDirection(Direction.DOWN);
         Collection<ChessMove> moveLeft = moveDirection(Direction.LEFT);
+
         return Stream.of(moveUp,moveRight,moveDown,moveLeft).flatMap(Collection::stream).toList();
     }
 }

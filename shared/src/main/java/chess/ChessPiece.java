@@ -77,6 +77,9 @@ public class ChessPiece {
         if (myPiece.getPieceType() == PieceType.ROOK) {
             return new RookMovesCalculator(board,myPosition).pieceMoves();
         }
+        if (myPiece.getPieceType() ==PieceType.QUEEN) {
+            return new QueenMovesCalculator(board,myPosition).pieceMoves();
+        }
         return possibleMoves;
     }
 
