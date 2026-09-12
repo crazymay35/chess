@@ -11,15 +11,15 @@ abstract class PieceMovesCalculator {
         this.board = board;
         this.position = position;
     }
-    public abstract Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition);
+    public abstract Collection<ChessMove> pieceMoves();
 
-    public boolean inBounds(ChessPosition position) {
+    private boolean inBounds(ChessPosition position) {
         return position.getRow() >=1 && position.getRow() <= 8 && position.getColumn() >= 1 && position.getColumn() <= 8;
     }
-    public boolean pieceIsNull(ChessPosition position) {
+    private boolean pieceIsNull(ChessPosition position) {
         return board.getPiece(position) == null;
     }
-    public boolean teamColorNotMatch(ChessPiece newPiece, ChessPiece myPiece) {
+    private boolean teamColorNotMatch(ChessPiece newPiece, ChessPiece myPiece) {
         return newPiece.getTeamColor() != myPiece.getTeamColor();
     }
     public enum Direction {
@@ -44,7 +44,7 @@ abstract class PieceMovesCalculator {
         }
 
     }
-    public Collection<ChessMove> moveDirection(ChessBoard board, Direction direction) {
+    public Collection<ChessMove> moveDirection(Direction direction) {
         ChessPiece piece = board.getPiece(position);
         List<ChessMove> possibleMoves = new ArrayList<>();
         int i = 1;
@@ -58,9 +58,7 @@ abstract class PieceMovesCalculator {
                 possibleMoves.add(new ChessMove(position, newPosition, null));
                 break;
             }
-            else {
-                break;
-            }
+            else { break; }
             i++;
         }
         return possibleMoves;
