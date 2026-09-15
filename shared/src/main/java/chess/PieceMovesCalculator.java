@@ -27,7 +27,6 @@ abstract class PieceMovesCalculator {
         return newPiece.getTeamColor() != myPiece.getTeamColor();
     }
     protected enum Direction {
-        NULL(0,0),
         UP(1,0),
         UP_RIGHT(1,1),
         RIGHT(0,1),
@@ -48,6 +47,7 @@ abstract class PieceMovesCalculator {
             return new ChessPosition(position.getRow() + (this.row * length), position.getColumn() + (this.col * length));
         }
     }
+
     protected Collection<ChessMove> moveDirection(Direction direction) {
         ChessPiece piece = board.getPiece(position);
         List<ChessMove> possibleMoves = new ArrayList<>();
