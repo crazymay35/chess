@@ -26,120 +26,69 @@ public class PawnMovesCalculator extends PieceMovesCalculator{
         }
     }
 
+    private void possiblePromotions(Collection<ChessMove> possibleMoves, ChessPosition newPosition, int rowPiecePromote) {
+        if (getPosition().getRow() == rowPiecePromote) {
+            possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.QUEEN));
+            possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.ROOK));
+            possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.BISHOP));
+            possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.KNIGHT));
+        }
+        else {
+            possibleMoves.add(new ChessMove(getPosition(),newPosition,null));
+        }
+    }
+
+    private void forward(Collection<ChessMove> possibleMoves, int rowPiecePromote, int direction) {
+        ChessPosition forward = Direction.FORWARD.step(getPosition(),direction);
+        if (inBounds(forward) && pieceIsNull(forward)) {
+            possiblePromotions(possibleMoves,forward,rowPiecePromote);
+        }
+    }
+    private void firstMove(Collection<ChessMove> possibleMoves, int rowPiecePromote, int direction) {
+        ChessPosition firstMove = Direction.FIRST_MOVE.step(getPosition(),direction);
+        ChessPosition forward = Direction.FORWARD.step(getPosition(),direction);
+        if (getPosition().getRow() == rowPiecePromote && pieceIsNull(forward) && pieceIsNull(firstMove)) {
+            possibleMoves.add(new ChessMove(getPosition(),firstMove,null));
+        }
+    }
+    private void attack(Collection<ChessMove> possibleMoves, int rowPiecePromote, ChessPosition attackPosition) {
+        ChessPiece piece = getBoard().getPiece(getPosition());
+        if (inBounds(attackPosition) && !pieceIsNull(attackPosition)) {
+            ChessPiece attackedRightPiece = getBoard().getPiece(attackPosition);
+            if (teamColorNotMatch(piece, attackedRightPiece)) {
+                possiblePromotions(possibleMoves,attackPosition,rowPiecePromote);
+            }
+        }
+    }
     protected Collection<ChessMove> moveDirection() {
         List<ChessMove> possibleMoves = new ArrayList<>();
-        //step 1, get the pawn piece at the stated position
         ChessPiece piece = getBoard().getPiece(getPosition());
-        //if it's white... int direction = 1
-        //if it's black... int direction = -1
         int direction;
+
         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
             direction = 1;
-            ChessPosition forward = Direction.FORWARD.step(getPosition(),direction);
-            if (inBounds(forward) && pieceIsNull(forward)) {
-                if (getPosition().getRow() == 7) {
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.QUEEN));
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.ROOK));
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.BISHOP));
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.KNIGHT));
-                    //it's not always going to be queen, the user would need to choose what piece
-                }
-                else {
-                    possibleMoves.add(new ChessMove(getPosition(),forward,null));
-                }
-            }
-            ChessPosition firstMove = Direction.FIRST_MOVE.step(getPosition(),direction);
-            if (getPosition().getRow() == 2 && pieceIsNull(forward) && pieceIsNull(firstMove)) {
-                possibleMoves.add(new ChessMove(getPosition(),firstMove,null));
-            }
-            ChessPosition attackRight = Direction.ATTACK_RIGHT.step(getPosition(),direction);
-            if (inBounds(attackRight) && !pieceIsNull(attackRight)) {
-                ChessPiece attackedRightPiece = getBoard().getPiece(attackRight);
-                if (teamColorNotMatch(piece, attackedRightPiece)) {
-                    if (getPosition().getRow() == 7) {
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.QUEEN));
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.ROOK));
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.BISHOP));
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.KNIGHT));
-                        //it's not always going to be queen, the user would need to choose what piece
-                    }
-                    else {
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,null));
-                    }
-                }
-            }
-            ChessPosition attackLeft = Direction.ATTACK_LEFT.step(getPosition(),direction);
 
-            if (inBounds(attackLeft) && !pieceIsNull(attackLeft)) {
-                ChessPiece attackedLeftPiece = getBoard().getPiece(attackLeft);
-                if (teamColorNotMatch(piece, attackedLeftPiece)) {
-                    if (getPosition().getRow() == 7) {
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.QUEEN));
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.ROOK));
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.BISHOP));
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.KNIGHT));
-                        //it's not always going to be queen, the user would need to choose what piece
-                    }
-                    else {
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,null));
-                    }
-                }
-            }
+            forward(possibleMoves,7,direction);
+            firstMove(possibleMoves,2,direction);
+
+            ChessPosition attackRight = Direction.ATTACK_RIGHT.step(getPosition(),direction);
+            attack(possibleMoves,7, attackRight);
+
+            ChessPosition attackLeft = Direction.ATTACK_LEFT.step(getPosition(),direction);
+            attack(possibleMoves,7, attackLeft);
         }
         if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
             direction = -1;
-            ChessPosition forward = Direction.FORWARD.step(getPosition(),direction);
-            if (inBounds(forward) && pieceIsNull(forward)) {
-                if (getPosition().getRow() == 2) {
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.QUEEN));
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.ROOK));
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.BISHOP));
-                    possibleMoves.add(new ChessMove(getPosition(),forward,ChessPiece.PieceType.KNIGHT));
-                    //it's not always going to be queen, the user would need to choose what piece
-                }
-                else {
-                    possibleMoves.add(new ChessMove(getPosition(),forward,null));
-                }
-            }
-            ChessPosition firstMove = Direction.FIRST_MOVE.step(getPosition(),direction);
-            if (getPosition().getRow() == 7 && pieceIsNull(forward) && pieceIsNull(firstMove)) {
-                possibleMoves.add(new ChessMove(getPosition(),firstMove,null));
-            }
-            ChessPosition attackRight = Direction.ATTACK_RIGHT.step(getPosition(),direction);
-            if (inBounds(attackRight) && !pieceIsNull(attackRight)) {
-                ChessPiece attackedRightPiece = getBoard().getPiece(attackRight);
-                if (teamColorNotMatch(piece, attackedRightPiece)) {
-                    if (getPosition().getRow() == 2) {
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.QUEEN));
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.ROOK));
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.BISHOP));
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,ChessPiece.PieceType.KNIGHT));
-                        //it's not always going to be queen, the user would need to choose what piece
-                    }
-                    else {
-                        possibleMoves.add(new ChessMove(getPosition(),attackRight,null));
-                    }
-                }
-            }
-            ChessPosition attackLeft = Direction.ATTACK_LEFT.step(getPosition(),direction);
 
-            if (inBounds(attackLeft) && !pieceIsNull(attackLeft)) {
-                ChessPiece attackedLeftPiece = getBoard().getPiece(attackLeft);
-                if (teamColorNotMatch(piece, attackedLeftPiece)) {
-                    if (getPosition().getRow() == 2) {
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.QUEEN));
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.ROOK));
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.BISHOP));
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,ChessPiece.PieceType.KNIGHT));
-                        //it's not always going to be queen, the user would need to choose what piece
-                    }
-                    else {
-                        possibleMoves.add(new ChessMove(getPosition(),attackLeft,null));
-                    }
-                }
-            }
+            forward(possibleMoves,2,direction);
+            firstMove(possibleMoves,7,direction);
+
+            ChessPosition attackRight = Direction.ATTACK_RIGHT.step(getPosition(),direction);
+            attack(possibleMoves,2, attackRight);
+
+            ChessPosition attackLeft = Direction.ATTACK_LEFT.step(getPosition(),direction);
+            attack(possibleMoves,2, attackLeft);
         }
-        
         return possibleMoves;
     }
     @Override
