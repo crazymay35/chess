@@ -1,8 +1,8 @@
 package chess;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 public class RookMovesCalculator extends PieceMovesCalculator{
     public RookMovesCalculator(ChessBoard board, ChessPosition position) {
@@ -11,11 +11,11 @@ public class RookMovesCalculator extends PieceMovesCalculator{
 
     @Override
     protected Collection<ChessMove> pieceMoves() {
-        Collection<ChessMove> moveUp = moveDirection(Direction.UP);
-        Collection<ChessMove> moveRight = moveDirection(Direction.RIGHT);
-        Collection<ChessMove> moveDown = moveDirection(Direction.DOWN);
-        Collection<ChessMove> moveLeft = moveDirection(Direction.LEFT);
-
-        return Stream.of(moveUp,moveRight,moveDown,moveLeft).flatMap(Collection::stream).toList();
+        Collection<ChessMove> allMoves = new ArrayList<>();
+        allMoves.addAll(moveDirection(Direction.UP,8));
+        allMoves.addAll(moveDirection(Direction.RIGHT,8));
+        allMoves.addAll(moveDirection(Direction.DOWN,8));
+        allMoves.addAll(moveDirection(Direction.LEFT,8));
+        return allMoves;
     }
 }

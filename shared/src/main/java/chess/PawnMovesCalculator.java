@@ -2,28 +2,10 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class PawnMovesCalculator extends PieceMovesCalculator{
     public PawnMovesCalculator (ChessBoard board, ChessPosition position) {
         super(board,position);
-    }
-    protected enum Direction {
-        FIRST_MOVE(2,0),
-        FORWARD(1,0),
-        ATTACK_RIGHT(1,1),
-        ATTACK_LEFT(1,-1);
-
-        private final int row;
-        private final int col;
-
-        Direction(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
-        public ChessPosition step(ChessPosition position, int direction) {
-            return new ChessPosition(position.getRow() + (this.row * direction), position.getColumn() + (this.col * direction));
-        }
     }
 
     private void possiblePromotions(Collection<ChessMove> possibleMoves, ChessPosition newPosition, int rowPiecePromote) {
@@ -60,39 +42,26 @@ public class PawnMovesCalculator extends PieceMovesCalculator{
             }
         }
     }
-    protected Collection<ChessMove> moveDirection() {
-        List<ChessMove> possibleMoves = new ArrayList<>();
-        ChessPiece piece = getBoard().getPiece(getPosition());
-        int direction;
 
-        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-            direction = 1;
-
-            forward(possibleMoves,7,direction);
-            firstMove(possibleMoves,2,direction);
-
-            ChessPosition attackRight = Direction.ATTACK_RIGHT.step(getPosition(),direction);
-            attack(possibleMoves,7, attackRight);
-
-            ChessPosition attackLeft = Direction.ATTACK_LEFT.step(getPosition(),direction);
-            attack(possibleMoves,7, attackLeft);
-        }
-        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
-            direction = -1;
-
-            forward(possibleMoves,2,direction);
-            firstMove(possibleMoves,7,direction);
-
-            ChessPosition attackRight = Direction.ATTACK_RIGHT.step(getPosition(),direction);
-            attack(possibleMoves,2, attackRight);
-
-            ChessPosition attackLeft = Direction.ATTACK_LEFT.step(getPosition(),direction);
-            attack(possibleMoves,2, attackLeft);
-        }
+    private Collection<ChessMove> moveDirection(int dir, int start, int end) {
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+        forward(possibleMoves,end,dir);
+        firstMove(possibleMoves,start,dir);
+        ChessPosition attackRight = Direction.ATTACK_RIGHT.step(getPosition(),dir);
+        attack(possibleMoves,end, attackRight);
+        ChessPosition attackLeft = Direction.ATTACK_LEFT.step(getPosition(),dir);
+        attack(possibleMoves,end, attackLeft);
         return possibleMoves;
     }
     @Override
     protected Collection<ChessMove> pieceMoves() {
-        return moveDirection();
+        ChessPiece piece = getBoard().getPiece(getPosition());
+        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+            return moveDirection(1,2,7);
+        }
+        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+            return moveDirection(-1,7,2);
+        }
+        return new ArrayList<>();
     }
 }

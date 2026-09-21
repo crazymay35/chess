@@ -2,7 +2,6 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class KingMovesCalculator extends PieceMovesCalculator {
 
@@ -10,39 +9,17 @@ public class KingMovesCalculator extends PieceMovesCalculator {
         super(board,position);
     }
 
-    private ChessMove validMove(Direction direction) {
-        ChessPiece piece = getBoard().getPiece(getPosition());
-        if (inBounds(direction.step(getPosition(), 1))) {
-            ChessPosition newPosition = direction.step(getPosition(), 1);
-            ChessPiece newPiece = getBoard().getPiece(newPosition);
-            if (pieceIsNull(newPosition) || teamColorNotMatch(newPiece, piece)) {
-                return new ChessMove(getPosition(), newPosition, null);
-            }
-        }
-        return null;
-    }
-
-    private void add(ChessMove move, Collection<ChessMove> possibleMoves) {
-        if (move != null) {
-            possibleMoves.add(move);
-        }
-    }
-
-    @Override
-    protected Collection<ChessMove> moveDirection() {
-        List<ChessMove> possibleMoves = new ArrayList<>();
-        add(validMove(Direction.UP), possibleMoves);
-        add(validMove(Direction.UP_RIGHT), possibleMoves);
-        add(validMove(Direction.RIGHT), possibleMoves);
-        add(validMove(Direction.DOWN_RIGHT), possibleMoves);
-        add(validMove(Direction.DOWN), possibleMoves);
-        add(validMove(Direction.DOWN_LEFT), possibleMoves);
-        add(validMove(Direction.LEFT), possibleMoves);
-        add(validMove(Direction.UP_LEFT), possibleMoves);
-        return possibleMoves;
-    }
     @Override
     protected Collection<ChessMove> pieceMoves() {
-        return moveDirection();
+        Collection<ChessMove> allMoves = new ArrayList<>();
+        allMoves.addAll(moveDirection(Direction.UP,1));
+        allMoves.addAll(moveDirection(Direction.UP_RIGHT,1));
+        allMoves.addAll(moveDirection(Direction.RIGHT,1));
+        allMoves.addAll(moveDirection(Direction.DOWN_RIGHT,1));
+        allMoves.addAll(moveDirection(Direction.DOWN,1));
+        allMoves.addAll(moveDirection(Direction.DOWN_LEFT,1));
+        allMoves.addAll(moveDirection(Direction.LEFT,1));
+        allMoves.addAll(moveDirection(Direction.UP_LEFT,1));
+        return allMoves;
     }
 }

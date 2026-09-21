@@ -1,7 +1,7 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 public class BishopMovesCalculator extends PieceMovesCalculator {
     public BishopMovesCalculator(ChessBoard board, ChessPosition position) {
@@ -9,12 +9,12 @@ public class BishopMovesCalculator extends PieceMovesCalculator {
     }
 
     @Override
-    public Collection<ChessMove> pieceMoves() {
-        Collection<ChessMove> moveUpRight = moveDirection(Direction.UP_RIGHT);
-        Collection<ChessMove> moveDownRight = moveDirection(Direction.DOWN_RIGHT);
-        Collection<ChessMove> moveDownLeft = moveDirection(Direction.DOWN_LEFT);
-        Collection<ChessMove> moveUpLeft = moveDirection(Direction.UP_LEFT);
-
-        return  Stream.of(moveUpRight, moveUpLeft, moveDownRight, moveDownLeft).flatMap(Collection::stream).toList();
+    protected Collection<ChessMove> pieceMoves() {
+        Collection<ChessMove> allMoves = new ArrayList<>();
+        allMoves.addAll(moveDirection(Direction.UP_RIGHT,8));
+        allMoves.addAll(moveDirection(Direction.DOWN_RIGHT,8));
+        allMoves.addAll(moveDirection(Direction.DOWN_LEFT,8));
+        allMoves.addAll(moveDirection(Direction.UP_LEFT,8));
+        return allMoves;
     }
 }

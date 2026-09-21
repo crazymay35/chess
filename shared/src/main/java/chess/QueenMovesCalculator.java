@@ -1,7 +1,7 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 public class QueenMovesCalculator extends PieceMovesCalculator{
     public QueenMovesCalculator(ChessBoard board, ChessPosition position) {
@@ -9,15 +9,15 @@ public class QueenMovesCalculator extends PieceMovesCalculator{
     }
     @Override
     protected Collection<ChessMove> pieceMoves() {
-        Collection<ChessMove> moveUp = moveDirection(Direction.UP);
-        Collection<ChessMove> moveUpRight = moveDirection(Direction.UP_RIGHT);
-        Collection<ChessMove> moveRight = moveDirection(Direction.RIGHT);
-        Collection<ChessMove> moveDownRight = moveDirection(Direction.DOWN_RIGHT);
-        Collection<ChessMove> moveDown = moveDirection(Direction.DOWN);
-        Collection<ChessMove> moveDownLeft = moveDirection(Direction.DOWN_LEFT);
-        Collection<ChessMove> moveLeft = moveDirection(Direction.LEFT);
-        Collection<ChessMove> moveUpLeft = moveDirection(Direction.UP_LEFT);
-
-        return Stream.of(moveUp,moveUpRight,moveRight,moveDownRight,moveDown,moveDownLeft,moveLeft,moveUpLeft).flatMap(Collection::stream).toList();
+        Collection<ChessMove> allMoves = new ArrayList<>();
+        allMoves.addAll(moveDirection(Direction.UP,8));
+        allMoves.addAll(moveDirection(Direction.UP_RIGHT,8));
+        allMoves.addAll(moveDirection(Direction.RIGHT,8));
+        allMoves.addAll(moveDirection(Direction.DOWN_RIGHT,8));
+        allMoves.addAll(moveDirection(Direction.DOWN,8));
+        allMoves.addAll(moveDirection(Direction.DOWN_LEFT,8));
+        allMoves.addAll(moveDirection(Direction.LEFT,8));
+        allMoves.addAll(moveDirection(Direction.UP_LEFT,8));
+        return allMoves;
     }
 }
