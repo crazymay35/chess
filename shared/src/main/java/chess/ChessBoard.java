@@ -24,7 +24,9 @@ public class ChessBoard {
     }
 
     private final ChessPiece[][] board;
-    public ChessBoard() { this.board = new ChessPiece[8][8]; }
+    public ChessBoard() {
+        this.board = new ChessPiece[8][8];
+    }
 
     /**
      * Adds a chess piece to the chessboard
@@ -32,7 +34,9 @@ public class ChessBoard {
      * @param position where to add the piece to
      * @param piece    the piece to add
      */
-    public void addPiece(ChessPosition position, ChessPiece piece) { board[position.getRow()-1][position.getColumn()-1] = piece; }
+    public void addPiece(ChessPosition position, ChessPiece piece) {
+        board[position.getRow()-1][position.getColumn()-1] = piece;
+    }
 
     /**
      * Gets a chess piece on the chessboard
@@ -50,7 +54,6 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-
         Collection<ChessPiece> whitePieces = createPieces(ChessGame.TeamColor.WHITE);
         addToBoard(whitePieces,1);
         addPawn(ChessGame.TeamColor.WHITE, 2);

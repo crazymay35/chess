@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * A class that can manage a chess game, making moves on a board
@@ -9,14 +10,32 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessGame {
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessGame chessGame = (ChessGame) o;
+        return Objects.equals(chessBoard, chessGame.chessBoard) && teamTurn == chessGame.teamTurn;
+    }
 
-    public ChessGame() { }
+    @Override
+    public int hashCode() {
+        return Objects.hash(chessBoard, teamTurn);
+    }
+
+    private ChessBoard chessBoard;
+    private TeamColor teamTurn;
+    public ChessGame() {
+        this.chessBoard = new ChessBoard();
+        this.teamTurn = TeamColor.WHITE;
+    }
 
     /**
      * @return Which team's turn it is
      */
     public TeamColor getTeamTurn() {
-        throw new RuntimeException("Not implemented");
+        return teamTurn;
     }
 
     /**
@@ -25,7 +44,7 @@ public class ChessGame {
      * @param team the team whose turn it is
      */
     public void setTeamTurn(TeamColor team) {
-        throw new RuntimeException("Not implemented");
+        teamTurn = team;
     }
 
     /**
@@ -43,7 +62,14 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-    public Collection<ChessMove> validMoves(ChessPosition startPosition) { throw new RuntimeException("Not implemented"); }
+    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+        if (chessBoard.getPiece(startPosition).equals(null)) {
+            return null;
+        }
+        ChessPiece piece = chessBoard.getPiece(startPosition);
+        return piece.pieceMoves(chessBoard, startPosition);
+
+    }
 
     /**
      * Makes a move in the chess game
@@ -51,7 +77,9 @@ public class ChessGame {
      * @param move chess move to perform
      * @throws InvalidMoveException if move is invalid
      */
-    public void makeMove(ChessMove move) throws InvalidMoveException { throw new RuntimeException("Not implemented"); }
+    public void makeMove(ChessMove move) throws InvalidMoveException {
+        throw new RuntimeException("Not implemented");
+    }
 
     /**
      * Determines if the given team is in check
@@ -70,7 +98,9 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
 
-    public boolean isInCheckmate(TeamColor teamColor) { throw new RuntimeException("Not implemented"); }
+    public boolean isInCheckmate(TeamColor teamColor) {
+        throw new RuntimeException("Not implemented");
+    }
 
     /**
      * Determines if the given team is in stalemate, which here is defined as having
@@ -89,7 +119,7 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        throw new RuntimeException("Not implemented");
+        chessBoard = board;
     }
 
     /**
@@ -98,6 +128,6 @@ public class ChessGame {
      * @return the chessboard
      */
     public ChessBoard getBoard() {
-        throw new RuntimeException("Not implemented");
+        return chessBoard;
     }
 }

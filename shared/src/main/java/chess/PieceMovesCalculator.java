@@ -10,11 +10,12 @@ abstract class PieceMovesCalculator {
         this.board = board;
         this.position = position;
     }
-    protected ChessBoard getBoard() { return board; }
-    protected ChessPosition getPosition() { return position; }
-
-
-
+    protected ChessBoard getBoard() {
+        return board;
+    }
+    protected ChessPosition getPosition() {
+        return position;
+    }
     protected boolean inBounds(ChessPosition position) {
         return position.getRow() >=1 && position.getRow() <= 8 && position.getColumn() >= 1 && position.getColumn() <= 8;
     }

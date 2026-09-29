@@ -33,7 +33,6 @@ public class ChessPiece {
         this.type = type;
     }
 
-
     /**
      * The various different chess piece options
      */
@@ -49,7 +48,9 @@ public class ChessPiece {
     /**
      * @return Which team this chess piece belongs to
      */
-    public ChessGame.TeamColor getTeamColor() { return pieceColor; }
+    public ChessGame.TeamColor getTeamColor() {
+        return pieceColor;
+    }
 
     /**
      * @return which type of chess piece this piece is
@@ -91,5 +92,7 @@ public class ChessPiece {
     }
 
     @Override
-    public String toString() { return String.format("%s %s",pieceColor, type); }
+    public String toString() {
+        return String.format("%s %s",pieceColor, type);
+    }
 }
