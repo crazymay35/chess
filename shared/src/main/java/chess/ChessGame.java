@@ -126,14 +126,13 @@ public class ChessGame {
         for (int row = 1; row <= 8; row++) {
             for (int col = 1; col <= 8; col++) {
                 ChessPosition pos = new ChessPosition(row,col);
-                if (chessBoard.getPiece(pos) == null) {
-                    continue;
-                }
-                else if (chessBoard.getPiece(pos).equals(king)) {
-                    kingPos = pos;
-                }
-                else if (chessBoard.getPiece(pos).getTeamColor() != teamColor) {
-                    enemyPositions.add(pos);
+                if (chessBoard.getPiece(pos) != null) {
+                    if (chessBoard.getPiece(pos).equals(king)) {
+                        kingPos = pos;
+                    }
+                    else if (chessBoard.getPiece(pos).getTeamColor() != teamColor) {
+                        enemyPositions.add(pos);
+                    }
                 }
             }
         }
@@ -156,9 +155,17 @@ public class ChessGame {
      */
 
     public boolean isInCheckmate(TeamColor teamColor) {
-        //throw new RuntimeException("Not implemented");
-        //when king in check, and there are no moves to get him out of chcek
-        return true;
+        boolean inCheck = isInCheck(teamColor);
+        Collection<ChessMove> moves = new ArrayList<>();
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition pos = new ChessPosition(row,col);
+                if (chessBoard.getPiece(pos) != null && chessBoard.getPiece(pos).getTeamColor() == teamColor) {
+                    moves.addAll(validMoves(pos));
+                }
+            }
+        }
+        return inCheck && moves.isEmpty();
     }
 
     /**
@@ -169,10 +176,17 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        //throw new RuntimeException("Not implemented");
-        //the king is not in check, and there are no moves I can make that wouldn't put king in check
-        // (aka no moves i can make)
-        return true;
+        boolean inCheck = isInCheck(teamColor);
+        Collection<ChessMove> moves = new ArrayList<>();
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition pos = new ChessPosition(row,col);
+                if (chessBoard.getPiece(pos) != null && chessBoard.getPiece(pos).getTeamColor() == teamColor) {
+                    moves.addAll(validMoves(pos));
+                }
+            }
+        }
+        return !inCheck && moves.isEmpty();
     }
 
     /**
