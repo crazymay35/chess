@@ -127,18 +127,19 @@ public class ChessGame {
     public boolean isInCheck(TeamColor teamColor) {
         Collection<ChessPosition> enemyPositions = new ArrayList<>();
         ChessPosition kingPos = null;
-        for (int row = 1; row <= 8; row++) {
-            for (int col = 1; col <= 8; col++) {
-                ChessPosition pos = new ChessPosition(row,col);
-                ChessPiece piece = chessBoard.getPiece(pos);
-                if (piece != null && piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
-                    kingPos = pos;
-                }
-                if (piece != null && piece.getTeamColor() != teamColor) {
-                    enemyPositions.add(pos);
-                }
+        for (int i = 0; i < 64; i++) {
+            int row = (i/8)+1;
+            int col = (i%8)+1;
+            ChessPosition pos = new ChessPosition(row,col);
+            ChessPiece piece = chessBoard.getPiece(pos);
+            if (piece != null && piece.getTeamColor() == teamColor && piece.getPieceType() == ChessPiece.PieceType.KING) {
+                kingPos = pos;
+            }
+            if (piece != null && piece.getTeamColor() != teamColor) {
+                enemyPositions.add(pos);
             }
         }
+
         for (ChessPosition pos : enemyPositions) {
             ChessPiece piece = chessBoard.getPiece(pos);
             for (ChessMove move : piece.pieceMoves(chessBoard,pos)) {
@@ -174,13 +175,14 @@ public class ChessGame {
 
     private Collection<ChessMove> getAllMoves (TeamColor teamColor) {
         Collection<ChessMove> moves = new ArrayList<>();
-        for (int row = 1; row <= 8; row++) {
-            for (int col = 1; col <= 8; col++) {
-                ChessPosition pos = new ChessPosition(row,col);
-                ChessPiece piece = chessBoard.getPiece(pos);
-                if (piece != null && piece.getTeamColor() == teamColor) {
-                    moves.addAll(validMoves(pos));
-                }
+
+        for (int i = 0; i < 64; i++) {
+            int row = (i/8)+1;
+            int col = (i%8)+1;
+            ChessPosition pos = new ChessPosition(row,col);
+            ChessPiece piece = chessBoard.getPiece(pos);
+            if (piece != null && piece.getTeamColor() == teamColor) {
+                moves.addAll(validMoves(pos));
             }
         }
         return moves;
