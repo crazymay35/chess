@@ -28,6 +28,17 @@ public class ChessBoard {
         this.board = new ChessPiece[8][8];
     }
 
+    public ChessBoard(ChessBoard other) {
+        this.board = new ChessPiece[8][8];
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (other.board[row][col] != null) {
+                    this.board[row][col] = other.board[row][col];
+                }
+            }
+        }
+    }
+
     /**
      * Adds a chess piece to the chessboard
      *
