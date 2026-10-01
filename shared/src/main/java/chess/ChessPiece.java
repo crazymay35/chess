@@ -77,24 +77,15 @@ public class ChessPiece {
     }
 
     private String toStringHelper(ChessGame.TeamColor color, PieceType type) {
-        return switch (color) {
-            case WHITE -> switch (type) {
-                case PAWN -> "P";
-                case ROOK -> "R";
-                case KNIGHT -> "N";
-                case BISHOP -> "B";
-                case QUEEN -> "Q";
-                case KING -> "K";
-            };
-            case BLACK -> switch (type) {
-                case PAWN -> "p";
-                case ROOK -> "r";
-                case KNIGHT -> "n";
-                case BISHOP -> "b";
-                case QUEEN -> "q";
-                case KING -> "k";
-            };
+        String letter = switch (type) {
+            case PAWN -> "P";
+            case ROOK -> "R";
+            case KNIGHT -> "N";
+            case BISHOP -> "B";
+            case QUEEN -> "Q";
+            case KING -> "K";
         };
+        return (color == ChessGame.TeamColor.WHITE) ? letter : letter.toLowerCase();
     }
 
     @Override
