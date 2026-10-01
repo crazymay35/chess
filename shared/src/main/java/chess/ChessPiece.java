@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -67,28 +66,22 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ChessPiece myPiece = board.getPiece(myPosition);
-        Collection<ChessMove> possibleMoves = new ArrayList<>();
+        return switch (type) {
+            case PieceType.BISHOP -> new BishopMovesCalculator(board, myPosition).pieceMoves();
+            case PieceType.ROOK -> new RookMovesCalculator(board, myPosition).pieceMoves();
+            case PieceType.QUEEN -> new QueenMovesCalculator(board, myPosition).pieceMoves();
+            case PieceType.KING -> new KingMovesCalculator(board, myPosition).pieceMoves();
+            case PieceType.KNIGHT -> new KnightMovesCalculator(board, myPosition).pieceMoves();
+            case PieceType.PAWN -> new PawnMovesCalculator(board, myPosition).pieceMoves();
+        };
+    }
 
-        if (myPiece.getPieceType() == PieceType.BISHOP) {
-            return new BishopMovesCalculator(board, myPosition).pieceMoves();
-        }
-        if (myPiece.getPieceType() == PieceType.ROOK) {
-            return new RookMovesCalculator(board,myPosition).pieceMoves();
-        }
-        if (myPiece.getPieceType() == PieceType.QUEEN) {
-            return new QueenMovesCalculator(board,myPosition).pieceMoves();
-        }
-        if (myPiece.getPieceType() == PieceType.KING) {
-            return new KingMovesCalculator(board,myPosition).pieceMoves();
-        }
-        if (myPiece.getPieceType() == PieceType.KNIGHT) {
-            return new KnightMovesCalculator(board,myPosition).pieceMoves();
-        }
-        if (myPiece.getPieceType() == PieceType.PAWN) {
-            return new PawnMovesCalculator(board,myPosition).pieceMoves();
-        }
-        return possibleMoves;
+    //create a map,, lower case = black pieces, upper case = white pieces,,
+    // p/P = pawn r/R = rook n/N = night b/B = bishop q/Q = queen k/K = king
+
+    private String toStringHelper(ChessGame.TeamColor color, PieceType type) {
+
+        return "hello";
     }
 
     @Override
