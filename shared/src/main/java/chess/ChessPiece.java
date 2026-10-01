@@ -76,16 +76,29 @@ public class ChessPiece {
         };
     }
 
-    //create a map,, lower case = black pieces, upper case = white pieces,,
-    // p/P = pawn r/R = rook n/N = night b/B = bishop q/Q = queen k/K = king
-
     private String toStringHelper(ChessGame.TeamColor color, PieceType type) {
-
-        return "hello";
+        return switch (color) {
+            case WHITE -> switch (type) {
+                case PAWN -> "P";
+                case ROOK -> "R";
+                case KNIGHT -> "N";
+                case BISHOP -> "B";
+                case QUEEN -> "Q";
+                case KING -> "K";
+            };
+            case BLACK -> switch (type) {
+                case PAWN -> "p";
+                case ROOK -> "r";
+                case KNIGHT -> "n";
+                case BISHOP -> "b";
+                case QUEEN -> "q";
+                case KING -> "k";
+            };
+        };
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s",pieceColor, type);
+        return String.format("%s",toStringHelper(pieceColor, type));
     }
 }
