@@ -84,7 +84,7 @@ public class ChessGame {
         }
         Collection<ChessMove> moves = piece.pieceMoves(chessBoard, startPosition);
         Collection<ChessMove> validMoves = new ArrayList<>();
-        //checks if the moves are valid according to check checkmate staelmate,,
+        //checks if the moves are valid according to check checkmate stalemate,
         // returns the ones that are valid out of that list
         ChessBoard realBoard = chessBoard;
         for (ChessMove move : moves) {
@@ -111,6 +111,34 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         //throw new RuntimeException("Not implemented");
+        ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
+        Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
+        if (chessBoard.getPiece(move.getStartPosition()) == null) {
+            throw new InvalidMoveException("there is not piece at " + move.getStartPosition());
+        }
+        else if (!validMoves.contains(move)) {
+            throw new InvalidMoveException("move" + move.getStartPosition().toString() + "to" + move.getEndPosition().toString() + " is not a valid move");
+        }
+        else if(piece.getTeamColor() != teamTurn) {
+            throw new InvalidMoveException("it is not " + piece.getTeamColor().toString() + " turn it is " + teamTurn);
+        }
+        else {
+            if (move.getPromotionPiece() != null) {
+                ChessPiece promotion = new ChessPiece(piece.getTeamColor(),move.getPromotionPiece());
+                chessBoard.addPiece(move.getEndPosition(),promotion);
+                chessBoard.addPiece(move.getStartPosition(),null);
+            }
+            else {
+                chessBoard.addPiece(move.getEndPosition(),piece);
+                chessBoard.addPiece(move.getStartPosition(),null);
+            }
+            if (teamTurn != TeamColor.BLACK) {
+                teamTurn = TeamColor.BLACK;
+            }
+            else {
+                teamTurn = TeamColor.WHITE;
+            }
+        }
     }
 
     /**
