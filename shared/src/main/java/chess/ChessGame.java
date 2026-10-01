@@ -74,15 +74,7 @@ public class ChessGame {
         ChessBoard realBoard = chessBoard;
         for (ChessMove move : moves) {
             ChessBoard copyBoard = new ChessBoard(chessBoard);
-            if (move.getPromotionPiece() != null) {
-                ChessPiece promotion = new ChessPiece(piece.getTeamColor(),move.getPromotionPiece());
-                copyBoard.addPiece(move.getEndPosition(),promotion);
-            }
-            else {
-                copyBoard.addPiece(move.getEndPosition(),piece);
-            }
-            copyBoard.addPiece(move.getStartPosition(),null);
-            chessBoard = copyBoard;
+            chessBoard = boardChange(copyBoard,move);
             if (!isInCheck(piece.getTeamColor())) {
                 validMoves.add(move);
             }
@@ -109,16 +101,22 @@ public class ChessGame {
         if (validMoves == null || !validMoves.contains(move)) {
             throw new InvalidMoveException("move" + move.getStartPosition().toString() + "to" + move.getEndPosition().toString() + " is not a valid move");
         }
+        chessBoard = boardChange(chessBoard,move);
 
+        teamTurn = (teamTurn == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
+    }
+
+    private ChessBoard boardChange (ChessBoard board, ChessMove move) {
+        ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
         if (move.getPromotionPiece() != null) {
             ChessPiece promotion = new ChessPiece(piece.getTeamColor(),move.getPromotionPiece());
-            chessBoard.addPiece(move.getEndPosition(),promotion);
+            board.addPiece(move.getEndPosition(),promotion);
         }
         else {
-            chessBoard.addPiece(move.getEndPosition(),piece);
+            board.addPiece(move.getEndPosition(),piece);
         }
-        chessBoard.addPiece(move.getStartPosition(),null);
-        teamTurn = (teamTurn == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
+        board.addPiece(move.getStartPosition(),null);
+        return board;
     }
 
     /**
