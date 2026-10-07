@@ -70,7 +70,6 @@ public class ChessGame {
         }
         Collection<ChessMove> moves = piece.pieceMoves(chessBoard, startPosition);
         Collection<ChessMove> validMoves = new ArrayList<>();
-
         ChessBoard realBoard = chessBoard;
         for (ChessMove move : moves) {
             ChessBoard copyBoard = new ChessBoard(chessBoard);
@@ -104,7 +103,6 @@ public class ChessGame {
         boardChange(chessBoard,move);
         teamTurn = (teamTurn == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
     }
-
     private ChessBoard boardChange (ChessBoard board, ChessMove move) {
         ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
         if (move.getPromotionPiece() != null) {
@@ -175,7 +173,6 @@ public class ChessGame {
 
     private Collection<ChessMove> getAllMoves (TeamColor teamColor) {
         Collection<ChessMove> moves = new ArrayList<>();
-
         for (int i = 0; i < 64; i++) {
             int row = (i/8)+1;
             int col = (i%8)+1;
