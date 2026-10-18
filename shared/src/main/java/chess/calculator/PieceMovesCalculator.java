@@ -1,9 +1,14 @@
-package chess;
+package chess.calculator;
+
+import chess.ChessBoard;
+import chess.ChessMove;
+import chess.ChessPiece;
+import chess.ChessPosition;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-abstract class PieceMovesCalculator {
+public abstract class PieceMovesCalculator {
     private final ChessBoard board;
     private final ChessPosition position;
     protected PieceMovesCalculator(ChessBoard board, ChessPosition position) {
@@ -60,7 +65,7 @@ abstract class PieceMovesCalculator {
             return new ChessPosition(position.getRow() + (this.row * length), position.getColumn() + (this.col * length));
         }
     }
-    protected abstract Collection<ChessMove> pieceMoves();
+    public abstract Collection<ChessMove> pieceMoves();
     protected Collection<ChessMove> moveDirection(Direction direction, int max) {
         ChessPiece piece = board.getPiece(position);
         Collection<ChessMove> possibleMoves = new ArrayList<>();

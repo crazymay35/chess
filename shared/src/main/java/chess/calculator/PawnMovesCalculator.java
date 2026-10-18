@@ -1,4 +1,6 @@
-package chess;
+package chess.calculator;
+
+import chess.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +12,7 @@ public class PawnMovesCalculator extends PieceMovesCalculator{
 
     private void possiblePromotions(Collection<ChessMove> possibleMoves, ChessPosition newPosition, int rowPiecePromote) {
         if (getPosition().getRow() == rowPiecePromote) {
-            possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.QUEEN));
+            possibleMoves.add(new ChessMove(getPosition(),newPosition, ChessPiece.PieceType.QUEEN));
             possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.ROOK));
             possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.BISHOP));
             possibleMoves.add(new ChessMove(getPosition(),newPosition,ChessPiece.PieceType.KNIGHT));
@@ -54,7 +56,7 @@ public class PawnMovesCalculator extends PieceMovesCalculator{
         return possibleMoves;
     }
     @Override
-    protected Collection<ChessMove> pieceMoves() {
+    public Collection<ChessMove> pieceMoves() {
         ChessPiece piece = getBoard().getPiece(getPosition());
         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
             return moveDirection(1,2,7);
